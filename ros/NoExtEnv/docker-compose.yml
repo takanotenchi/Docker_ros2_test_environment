@@ -1,0 +1,39 @@
+# No external connection environment
+name: ros2-humble-no-ext
+services:
+    # ROS2コンテナ
+    ros2:
+        # コンテナ名
+        container_name: ros2-no-ext
+
+        # 使用イメージ
+        image: osrf/ros:humble-desktop-full
+
+        # コンテナ設定
+        restart: always     # 常時起動
+        shm_size: 6g        # メモリサイズ
+        stdin_open: true    # 通常入力使用
+        tty: true           # ターミナル使用
+        # network_mode: host  # ネットワークモード ホスト直結
+        # ipc: host         # ROS 外部通信用
+        # privileged: true  # ホストモード
+        # security_opt:
+        #     - seccomp=unconfined
+
+        # ストレージ設定
+        volumes:
+            - ../../../ws:/root/ws:rw
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+        # デバイスパススルー
+        devices:
+            - /dev/dri                  # intel UHD
+            # - /dev/video0:/dev/video0   # カメラ
+            # - /dev/ttyUSB0:/dev/ttyUSB0 # IMU
+        
+        environment:
+            - DISPLAY
+            - QT_X11_NO_MITSHM=1
+
+        # 起動時 実行コマンド
+        # command:

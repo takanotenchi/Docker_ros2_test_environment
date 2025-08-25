@@ -1,0 +1,48 @@
+# Nomal environment
+name: ros2-humble
+services:
+    # ROS2コンテナ
+    ros2:
+        # コンテナ名
+        container_name: ros2
+
+        # 使用イメージ
+        image: osrf/ros:humble-desktop-full
+
+        # コンテナ設定
+        restart: always     # 常時起動
+        hostname: rosHumble # ホスト名
+        shm_size: 8g        # メモリサイズ
+        stdin_open: true    # 通常入力使用
+        tty: true           # ターミナル使用
+        network_mode: host  # ネットワークモード ホスト直結
+        ipc: host           # ROS 外部通信用
+        # privileged: true    # ホストモード
+        working_dir: /root/ws
+        # extra_hosts:
+        #     - "display:host-gateway"
+        # security_opt:
+        #     - seccomp=unconfined
+
+        # ストレージ設定
+        volumes:
+            # - ../../ws:/root/ws:rw
+            - /mnt/c/Users/user/Docker/ROS2test/ws:/root/ws:rw
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+        # デバイスパススルー
+        # devices:
+            # - /dev/dri                  # intel UHD
+            # - /dev/video0:/dev/video0   # カメラ
+            # - /dev/ttyUSB0:/dev/ttyUSB0 # IMU
+            # - /dev/ttyACM0:/dev/ttyACM0 # F9P GNSS
+            # - /dev/tty_imu:/dev/tty_imu # IMU
+            # - /dev/f9p_rover:/dev/f9p_rover     # F9P GNSS
+        
+        environment:
+            - DISPLAY=:0
+            - QT_X11_NO_MITSHM=1
+            # - ROS_MASTER_URI=http://localhost:11311
+
+        # 起動時 実行コマンド
+        # command:
