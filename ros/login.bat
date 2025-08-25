@@ -1,0 +1,1 @@
+wsl xhost + ; docker exec -it ros2 bash -c 'export DISPLAY=":0" ; terminator'
